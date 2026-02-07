@@ -1,0 +1,9 @@
+services:
+  github-runner:
+    image: ghcr.io/zacholade/github-runner:latest
+    restart: unless-stopped
+    environment:
+      - REPO_URL=https://github.com/zacholade/verulam_skincare_site
+      - TOKEN=${TOKEN}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
