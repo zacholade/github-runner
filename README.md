@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
     environment:
       - REPO_URL=https://github.com/<owner>/<repo>
-      - TOKEN=<registration-token>
+      - PAT=<personal-access-token>
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 ```
@@ -21,13 +21,15 @@ services:
 | Variable | Required | Description |
 |---|---|---|
 | `REPO_URL` | Yes | Repository URL (e.g. `https://github.com/owner/repo`) |
-| `TOKEN` | Yes | Runner registration token |
+| `PAT` | Yes | GitHub Personal Access Token with `repo` scope |
 | `RUNNER_NAME` | No | Runner name (default: `self-hosted-docker`) |
 | `RUNNER_LABELS` | No | Comma-separated labels (default: `self-hosted`) |
 
-## Getting a Registration Token
+A fresh registration token is generated from the PAT on each container start, so the runner survives restarts without manual token rotation.
 
-Go to your repository **Settings → Actions → Runners → New self-hosted runner**. The token is shown in the configure step.
+## Creating a PAT
+
+Go to GitHub **Settings → Developer settings → Personal access tokens → Fine-grained tokens** and create a token with **Administration (read & write)** permission on the target repository.
 
 ## Usage in Workflows
 
