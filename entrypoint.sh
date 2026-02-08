@@ -34,7 +34,12 @@ if [ "$TOKEN" = "null" ] || [ -z "$TOKEN" ]; then
   exit 1
 fi
 
-./config.sh --url "$REPO_URL" --token "$TOKEN" --unattended --replace --name "${RUNNER_NAME:-self-hosted-docker}" --labels "${RUNNER_LABELS:-self-hosted}"
+DISABLE_UPDATE_FLAG=""
+if [ "${DISABLE_AUTO_UPDATE:-false}" = "true" ]; then
+  DISABLE_UPDATE_FLAG="--disableupdate"
+fi
+
+./config.sh --url "$REPO_URL" --token "$TOKEN" --unattended --replace $DISABLE_UPDATE_FLAG --name "${RUNNER_NAME:-self-hosted-docker}" --labels "${RUNNER_LABELS:-self-hosted}"
 
 # Deregister on exit
 cleanup() {
